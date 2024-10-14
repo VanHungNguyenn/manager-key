@@ -178,6 +178,14 @@ const userController = {
 			return res.status(500).json({ message: error.message })
 		}
 	},
+	changeBalance: async (userId, amount) => {
+		try {
+			
+		} 
+		catch (error) {
+			return res.status(500).json({ message: error.message })
+		}
+	}
 }
 
 module.exports = userController

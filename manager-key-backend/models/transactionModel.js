@@ -1,10 +1,16 @@
 const mongoose = require('mongoose')
+const {typeTransactionEnum} = require('@/types')
 
 const transactionSchema = new mongoose.Schema(
 	{
 		userId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
+			required: true,
+		},
+		type: {
+			type: String,
+			enum: Object.values(typeTransactionEnum),
 			required: true,
 		},
 		bankName: {
