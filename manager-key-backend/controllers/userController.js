@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const User = require('@/models/userModel')
+const Transaction = require('@/models/transactionModel')
 const {
 	hashPassword,
 	validatePassword,
@@ -7,6 +8,7 @@ const {
 	validateEmail,
 	pagination,
 } = require('@/utils')
+const { typeTransactionEnum } = require('@/types')
 
 const userController = {
 	getProfileUser: async (req, res) => {
@@ -156,7 +158,13 @@ const userController = {
 	},
 	getAllUsers: async (req, res) => {
 		try {
+			const { search } = req.query
+
 			const conditions = {}
+
+			if (search) {
+				conditions.username = { $regex: search, $options: 'i' } // 'i' để không phân biệt hoa thường
+			}
 
 			const results = await pagination(
 				User,
@@ -178,14 +186,55 @@ const userController = {
 			return res.status(500).json({ message: error.message })
 		}
 	},
-	changeBalance: async (userId, amount) => {
+	changeBalance: async (req, res) => {
 		try {
-			
-		} 
-		catch (error) {
+			const { id } = req.params
+			const { amount } = req.body
+
+			if (isNaN(amount)) {
+				return res.status(400).json({ message: 'Amount is invalid' })
+			}
+
+			const user = await User.findById(id)
+
+			if (!user) {
+				return res.status(404).json({ message: 'User not found' })
+			}
+
+			await User.findByIdAndUpdate(
+				id,
+				{
+					$inc: {
+						balance: Math.round(Number(amount) * 100) / 100, // làm tròn amount đến 2 chữ số sau dấu phẩy
+					},
+				},
+				{ new: true }
+			)
+
+			// record transaction
+			const transaction = new Transaction({
+				userId: id,
+				type: typeTransactionEnum.MANUAL,
+				bankName: '',
+				bankAccountNumber: '',
+				fromAccountNumber: '',
+				fromBankName: '',
+				amount,
+				content: 'Change balance manually',
+				mailId: '',
+				mailDate: new Date(),
+				shortCode: '',
+			})
+
+			await transaction.save()
+
+			return res
+				.status(200)
+				.json({ message: 'Change balance successfully' })
+		} catch (error) {
 			return res.status(500).json({ message: error.message })
 		}
-	}
+	},
 }
 
 module.exports = userController

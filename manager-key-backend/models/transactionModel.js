@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {typeTransactionEnum} = require('@/types')
+const { typeTransactionEnum } = require('@/types')
 
 const transactionSchema = new mongoose.Schema(
 	{
@@ -15,40 +15,38 @@ const transactionSchema = new mongoose.Schema(
 		},
 		bankName: {
 			type: String,
-			required: true,
-		},
-		bankAccountNumber: {
-			type: String,
-			required: true,
-		},
-		fromAccountNumber: {
-			type: String,
-			required: true,
-		},
-		fromBankName: {
-			type: String,
-			required: true,
+			default: '',
 		},
 		amount: {
 			type: Number,
 			required: true,
-			min: 0,
+		},
+		bankAccountNumber: {
+			type: String,
+			default: '',
+		},
+		fromAccountNumber: {
+			type: String,
+			default: '',
+		},
+		fromBankName: {
+			type: String,
+			default: '',
 		},
 		content: {
 			type: String,
-			required: true,
+			default: '',
 		},
 		mailId: {
 			type: String,
-			required: true,
+			default: '',
 		},
 		mailDate: {
 			type: Date,
-			required: true,
 		},
 		shortCode: {
 			type: String,
-			required: true,
+			default: '',
 		},
 	},
 	{
