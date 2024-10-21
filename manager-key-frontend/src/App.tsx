@@ -6,10 +6,12 @@ import DashboardLayout from './components/layout/DashboardLayout'
 import Loading from './components/Loading'
 import { SESSION_TOKEN_KEY } from './constants'
 import ErrorPage from './pages/ErrorPage'
+import KeyPage from './pages/KeyPage'
 import LoginPage from './pages/LoginPage'
 import OverviewPage from './pages/OverviewPage'
 import ProfilePage from './pages/ProfilePage'
 import SettingsPage from './pages/SettingsPage'
+import TopupPage from './pages/TopupPage'
 import UsersPage from './pages/UsersPage'
 import { loginFail, loginSuccess } from './redux/auth/authSlice'
 import PrivateRoute from './routes/PrivateRoute'
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
 			{
 				path: '/dashboard/profile',
 				element: <ProfilePage />,
+			},
+			{
+				path: '/dashboard/keys',
+				element: <KeyPage />,
+			},
+			{
+				path: '/dashboard/topup',
+				element: <TopupPage />,
 			},
 		],
 	},
