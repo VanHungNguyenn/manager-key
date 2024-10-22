@@ -27,7 +27,7 @@ const DashboardLayout = () => {
 		const keys: { [key: string]: string } = {
 			'/dashboard': '1',
 			'/dashboard/users': '2',
-			'/dashboard/keys': '3',
+			'/dashboard/transactions': '3',
 			'/dashboard/topup': '4',
 			'/dashboard/profile': '5',
 		}
@@ -38,7 +38,7 @@ const DashboardLayout = () => {
 		const pathMap: { [key: string]: string } = {
 			'1': '/dashboard',
 			'2': '/dashboard/users',
-			'3': '/dashboard/keys',
+			'3': '/dashboard/transactions',
 			'4': '/dashboard/topup',
 			'5': '/dashboard/profile',
 		}
@@ -90,8 +90,8 @@ const DashboardLayout = () => {
 				<MainHeader collapsed={collapsed} setCollapsed={setCollapsed} />
 				<Content
 					style={{
-						margin: '24px 16px',
-						padding: 24,
+						margin: '16px 8px',
+						padding: 16,
 						minHeight: 280,
 						background: colorBgContainer,
 						borderRadius: borderRadiusLG,

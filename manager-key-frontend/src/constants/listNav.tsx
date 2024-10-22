@@ -1,6 +1,6 @@
 import {
 	AppstoreAddOutlined,
-	KeyOutlined,
+	HistoryOutlined,
 	MoneyCollectOutlined,
 	ProfileOutlined,
 	UserOutlined,
@@ -43,12 +43,12 @@ const createMenuItems = (isAdmin: boolean): MenuItem[] => {
 					{
 						key: '2',
 						icon: <UserOutlined />,
-						label: 'Manager Users',
+						label: 'Users',
 					},
 					{
 						key: '3',
-						icon: <KeyOutlined />,
-						label: 'Manager Keys',
+						icon: <HistoryOutlined />,
+						label: 'Transactions',
 					},
 				],
 			},

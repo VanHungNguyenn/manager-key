@@ -31,16 +31,8 @@ const MainHeader = ({ collapsed, setCollapsed }: MainHeaderProps) => {
 
 	const items: MenuProps['items'] = [
 		{
-			label: (
-				<Space
-					onClick={() => {
-						handleLogout()
-					}}
-				>
-					<span>Logout</span>
-				</Space>
-			),
-			key: '2',
+			label: 'Logout', // Chỉ cần đặt text cho label
+			key: 'logout', // Dùng key để định danh
 			icon: <LogoutOutlined />,
 			danger: true,
 		},
@@ -75,6 +67,11 @@ const MainHeader = ({ collapsed, setCollapsed }: MainHeaderProps) => {
 			<Dropdown
 				menu={{
 					items,
+					onClick: ({ key }) => {
+						if (key === 'logout') {
+							handleLogout()
+						}
+					},
 				}}
 				trigger={['click']}
 				placement='bottomRight'

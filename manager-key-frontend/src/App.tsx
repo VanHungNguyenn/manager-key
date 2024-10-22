@@ -6,15 +6,16 @@ import DashboardLayout from './components/layout/DashboardLayout'
 import Loading from './components/Loading'
 import { SESSION_TOKEN_KEY } from './constants'
 import ErrorPage from './pages/ErrorPage'
-import KeyPage from './pages/KeyPage'
 import LoginPage from './pages/LoginPage'
 import OverviewPage from './pages/OverviewPage'
 import ProfilePage from './pages/ProfilePage'
 import SettingsPage from './pages/SettingsPage'
 import TopupPage from './pages/TopupPage'
+import TransactionPage from './pages/TransactionPage'
 import UsersPage from './pages/UsersPage'
 import { loginFail, loginSuccess } from './redux/auth/authSlice'
 import PrivateRoute from './routes/PrivateRoute'
+import ProtectedRoute from './routes/ProtectedRoute'
 import PublicRoute from './routes/PublicRoute'
 
 const router = createBrowserRouter([
@@ -39,8 +40,8 @@ const router = createBrowserRouter([
 				element: <OverviewPage />,
 			},
 			{
-				path: '/dashboard/users',
-				element: <UsersPage />,
+				path: '/dashboard/topup',
+				element: <TopupPage />,
 			},
 			{
 				path: '/dashboard/settings',
@@ -51,12 +52,20 @@ const router = createBrowserRouter([
 				element: <ProfilePage />,
 			},
 			{
-				path: '/dashboard/keys',
-				element: <KeyPage />,
+				path: '/dashboard/transactions',
+				element: (
+					<ProtectedRoute>
+						<TransactionPage />
+					</ProtectedRoute>
+				),
 			},
 			{
-				path: '/dashboard/topup',
-				element: <TopupPage />,
+				path: '/dashboard/users',
+				element: (
+					<ProtectedRoute>
+						<UsersPage />
+					</ProtectedRoute>
+				),
 			},
 		],
 	},
