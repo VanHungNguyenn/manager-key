@@ -1,37 +1,58 @@
-import {
-	MenuFoldOutlined,
-	MenuUnfoldOutlined,
-	UploadOutlined,
-	UserOutlined,
-	VideoCameraOutlined,
-} from '@ant-design/icons'
-import { Button, Layout, Menu, theme } from 'antd'
+import type { MenuProps } from 'antd'
+import { Layout, Menu, theme } from 'antd'
 import { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import logo from '../../../assets/react.svg'
+import { listNavAdmin, listNavUser } from '../../../constants/listNav'
+import { selectAuth } from '../../../redux/auth/authSlice'
+import MainHeader from '../MainHeader'
 
-const { Header, Sider, Content } = Layout
+const { Sider, Content } = Layout
 
 const DashboardLayout = () => {
 	const [collapsed, setCollapsed] = useState(false)
 	const {
 		token: { colorBgContainer, borderRadiusLG },
 	} = theme.useToken()
+	const navigate = useNavigate()
+	const { user } = useSelector(selectAuth)
+	const role = user?.role
+
+	const listNavFilterRole = role === 'admin' ? listNavAdmin : listNavUser
+
+	// Xác định defaultSelectedKeys
+	const getDefaultSelectedKeys = () => {
+		const path = window.location.pathname
+		const keys: { [key: string]: string } = {
+			'/dashboard': '1',
+			'/dashboard/users': '2',
+			'/dashboard/transactions': '3',
+			'/dashboard/topup': '4',
+			'/dashboard/profile': '5',
+		}
+		return keys[path] ? [keys[path]] : []
+	}
+
+	const onChooseMenu: MenuProps['onClick'] = (e) => {
+		const pathMap: { [key: string]: string } = {
+			'1': '/dashboard',
+			'2': '/dashboard/users',
+			'3': '/dashboard/transactions',
+			'4': '/dashboard/topup',
+			'5': '/dashboard/profile',
+		}
+		navigate(pathMap[e.key] || '/dashboard')
+	}
 
 	return (
-		<Layout
-			style={{
-				minHeight: '100vh',
-			}}
-		>
+		<Layout style={{ minHeight: '100vh' }}>
 			<Sider
 				breakpoint='lg'
 				trigger={null}
 				collapsible
 				collapsed={collapsed}
-				onBreakpoint={(broken) => {
-					setCollapsed(broken)
-				}}
+				onBreakpoint={setCollapsed}
 			>
 				<div
 					style={{
@@ -53,59 +74,24 @@ const DashboardLayout = () => {
 						<img
 							src={logo}
 							alt='logo'
-							style={{
-								width: '50px',
-								height: 'auto',
-							}}
+							style={{ width: '50px', height: 'auto' }}
 						/>
 					</Link>
 				</div>
 				<Menu
 					theme='dark'
 					mode='inline'
-					defaultSelectedKeys={['1']}
-					items={[
-						{
-							key: '1',
-							icon: <VideoCameraOutlined />,
-							label: 'Overview',
-						},
-						{
-							key: '2',
-							icon: <UserOutlined />,
-							label: 'Manager Users',
-						},
-						{
-							key: '3',
-							icon: <UploadOutlined />,
-							label: 'nav 3',
-						},
-					]}
+					defaultSelectedKeys={getDefaultSelectedKeys()}
+					items={listNavFilterRole}
+					onClick={onChooseMenu}
 				/>
 			</Sider>
 			<Layout>
-				<Header style={{ padding: 0, background: colorBgContainer }}>
-					<Button
-						type='text'
-						icon={
-							collapsed ? (
-								<MenuUnfoldOutlined />
-							) : (
-								<MenuFoldOutlined />
-							)
-						}
-						onClick={() => setCollapsed(!collapsed)}
-						style={{
-							fontSize: '16px',
-							width: 64,
-							height: 64,
-						}}
-					/>
-				</Header>
+				<MainHeader collapsed={collapsed} setCollapsed={setCollapsed} />
 				<Content
 					style={{
-						margin: '24px 16px',
-						padding: 24,
+						margin: '16px 8px',
+						padding: 16,
 						minHeight: 280,
 						background: colorBgContainer,
 						borderRadius: borderRadiusLG,

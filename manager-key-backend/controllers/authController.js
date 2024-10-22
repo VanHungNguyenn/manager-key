@@ -73,15 +73,13 @@ const authController = {
 				role: user.role,
 			})
 
-			res.cookie('token', token, {
-				httpOnly: true,
-				sameSite: 'strict',
-				ttl: 24 * 60 * 60 * 1000, // 24 hours
-			})
+			const { password: userPassword, ...userWithoutPassword } =
+				user.toObject()
 
 			res.status(200).json({
 				message: 'Login successful',
 				token: token,
+				user: userWithoutPassword,
 			})
 		} catch (error) {
 			return res.status(500).json({ message: error.message })
