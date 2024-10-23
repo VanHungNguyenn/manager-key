@@ -40,7 +40,7 @@ const validateEmail = (email, require = true) => {
 	}
 
 	if (email) {
-		if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
 			throw new Error('Invalid email address')
 		}
 	}

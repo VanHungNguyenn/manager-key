@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
 		<ConfigProvider
 			theme={{
 				token: {
-					fontFamily: 'Poppins, sans-serif',
+					fontFamily: 'Roboto, sans-serif',
 				},
 			}}
 		>

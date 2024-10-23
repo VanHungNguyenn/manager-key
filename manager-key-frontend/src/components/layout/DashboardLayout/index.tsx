@@ -30,6 +30,7 @@ const DashboardLayout = () => {
 			'/dashboard/transactions': '3',
 			'/dashboard/topup': '4',
 			'/dashboard/profile': '5',
+			'/dashboard/statistics': '6',
 		}
 		return keys[path] ? [keys[path]] : []
 	}
@@ -41,6 +42,7 @@ const DashboardLayout = () => {
 			'3': '/dashboard/transactions',
 			'4': '/dashboard/topup',
 			'5': '/dashboard/profile',
+			'6': '/dashboard/statistics',
 		}
 		navigate(pathMap[e.key] || '/dashboard')
 	}

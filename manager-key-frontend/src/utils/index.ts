@@ -1,2 +1,4 @@
-export * from './sessionStorage'
+
 export * from './getToken'
+export * from './sessionStorage'
+

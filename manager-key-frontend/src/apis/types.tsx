@@ -56,3 +56,11 @@ export interface IListTransaction {
 	transactions: ITransaction[]
 	total: number
 }
+
+export interface IStatisticOverview {
+	data: {
+		totalUser: number
+		totalTransaction: number
+		totalDeposit: number
+	}
+}

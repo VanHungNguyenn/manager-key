@@ -220,7 +220,7 @@ const userController = {
 				fromAccountNumber: '',
 				fromBankName: '',
 				amount,
-				content: 'Change balance manually',
+				content: 'Manual',
 				mailId: '',
 				mailDate: new Date(),
 				shortCode: '',
@@ -231,6 +231,23 @@ const userController = {
 			return res
 				.status(200)
 				.json({ message: 'Change balance successfully' })
+		} catch (error) {
+			return res.status(500).json({ message: error.message })
+		}
+	},
+	getAllTransactions: async (req, res) => {
+		try {
+			const { id } = req.user
+
+			// get 5 latest transactions
+			const transactions = await Transaction.find({ userId: id })
+				.sort({ createdAt: -1 }) // Sắp xếp theo thời gian tạo giảm dần
+				.limit(5)
+
+			return res.status(200).json({
+				message: 'Get all transactions successfully',
+				transactions,
+			})
 		} catch (error) {
 			return res.status(500).json({ message: error.message })
 		}
