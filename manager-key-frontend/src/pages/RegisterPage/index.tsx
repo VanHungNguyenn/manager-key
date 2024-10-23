@@ -2,63 +2,58 @@ import type { InputRef } from 'antd'
 import { Button, Form, Input, Typography } from 'antd'
 import { AxiosError } from 'axios'
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../../apis/Api'
-import { SESSION_TOKEN_KEY } from '../../constants'
+import { register } from '../../apis/Api'
 import { useMessage } from '../../context/useMessage'
-import { loginFail, loginSuccess, selectAuth } from '../../redux/auth/authSlice'
-import SessionStorage from '../../utils/sessionStorage'
 
 const { Title } = Typography
 
 type FieldType = {
 	username?: string
 	password?: string
+	confirmPassword?: string
+	email?: string
 }
 
-const LoginPage = () => {
+const RegisterPage = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('')
+	const [email, setEmail] = useState('')
+
+	const [loading, setLoading] = useState(false)
+
 	const usernameRef = useRef<InputRef | null>(null)
 	const messageApi = useMessage()
 
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
-	const { isLoggedIn, isLoading } = useSelector(selectAuth)
 
 	useEffect(() => {
 		usernameRef.current?.focus()
 	}, [])
 
-	useEffect(() => {
-		if (isLoggedIn) {
-			navigate('/dashboard')
-		}
-	}, [isLoggedIn, navigate])
-
-	const handleLogin = async () => {
+	const handleRegister = async () => {
 		try {
-			const response = await login(username, password)
+			setLoading(true)
+			const response = await register(
+				username,
+				password,
+				confirmPassword,
+				email
+			)
 
-			const { message, token, user } = response
-
-			SessionStorage.setItem(SESSION_TOKEN_KEY, token)
+			const { message } = response
 			messageApi.success(message)
-			dispatch(loginSuccess({ token, user }))
+			navigate('/')
 		} catch (error: unknown) {
-			dispatch(loginFail())
-
 			if (error instanceof AxiosError) {
 				messageApi.error(error?.response?.data?.message)
 			} else {
 				messageApi.error('An error occurred')
 			}
+		} finally {
+			setLoading(false)
 		}
-	}
-
-	const handleForgotPassword = () => {
-		messageApi.info('Please contact admin to reset password')
 	}
 
 	return (
@@ -80,7 +75,7 @@ const LoginPage = () => {
 						textAlign: 'center',
 					}}
 				>
-					Login
+					Register
 				</Title>
 				<div
 					style={{
@@ -114,6 +109,7 @@ const LoginPage = () => {
 								value={username}
 							/>
 						</Form.Item>
+
 						<Form.Item<FieldType>
 							label='Password'
 							name='password'
@@ -128,9 +124,40 @@ const LoginPage = () => {
 								onChange={(e) => setPassword(e.target.value)}
 								value={password}
 							/>
-							<Button onClick={handleForgotPassword} type='link'>
-								Forgot password?
-							</Button>
+						</Form.Item>
+
+						<Form.Item<FieldType>
+							label='RePassword'
+							name='confirmPassword'
+							rules={[
+								{
+									required: true,
+									message: 'Please confirm your password!',
+								},
+							]}
+						>
+							<Input.Password
+								onChange={(e) =>
+									setConfirmPassword(e.target.value)
+								}
+								value={confirmPassword}
+							/>
+						</Form.Item>
+
+						<Form.Item<FieldType>
+							label='Email'
+							name='email'
+							rules={[
+								{
+									required: true,
+									message: 'Please input your email!',
+								},
+							]}
+						>
+							<Input
+								onChange={(e) => setEmail(e.target.value)}
+								value={email}
+							/>
 						</Form.Item>
 
 						<Form.Item
@@ -143,10 +170,10 @@ const LoginPage = () => {
 								type='primary'
 								htmlType='submit'
 								style={{ width: '100%' }}
-								onClick={handleLogin}
-								disabled={isLoading}
+								onClick={handleRegister}
+								disabled={loading}
 							>
-								Login
+								Register
 							</Button>
 						</Form.Item>
 						<Form.Item
@@ -155,9 +182,9 @@ const LoginPage = () => {
 								sm: { span: 20, offset: 4 },
 							}}
 						>
-							<Link to='/register'>
+							<Link to='/'>
 								<Button type='link' style={{ width: '100%' }}>
-									Don't have an account? Register
+									You already have an account? Login
 								</Button>
 							</Link>
 						</Form.Item>
@@ -168,4 +195,4 @@ const LoginPage = () => {
 	)
 }
 
-export default LoginPage
+export default RegisterPage

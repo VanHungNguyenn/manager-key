@@ -4,9 +4,9 @@ import {
 	IListUsers,
 	ILoginData,
 	IProfileData,
-	IRegisterData,
 	IResponse,
 	IStatisticOverview,
+	IUserTransaction,
 } from './types'
 
 export const login = async (
@@ -24,12 +24,14 @@ export const login = async (
 export const register = async (
 	username: string,
 	password: string,
-	confirmPassword: string
-): Promise<IRegisterData> => {
+	confirmPassword: string,
+	email: string
+): Promise<IResponse> => {
 	const response = await axiosPublic.post('/auth/register', {
 		username,
 		password,
 		confirmPassword,
+		email,
 	})
 
 	return response.data
@@ -114,6 +116,26 @@ export const changeBalance = async (
 	const response = await axiosPrivate.put(`/user/change-balance/${id}`, {
 		amount,
 	})
+
+	return response.data
+}
+
+export const changePassword = async (
+	oldPassword: string,
+	newPassword: string,
+	confirmPassword: string
+): Promise<IResponse> => {
+	const response = await axiosPrivate.put('/user/change-password', {
+		oldPassword,
+		newPassword,
+		confirmPassword,
+	})
+
+	return response.data
+}
+
+export const getUserTransaction = async (): Promise<IUserTransaction> => {
+	const response = await axiosPrivate.get('/user/transactions')
 
 	return response.data
 }

@@ -55,7 +55,9 @@ const userController = {
 			)
 
 			if (!isPasswordValid) {
-				return res.status(400).json({ message: 'Invalid password' })
+				return res
+					.status(400)
+					.json({ message: 'Old password is incorrect' })
 			}
 
 			const hashedPassword = await hashPassword(newPassword)

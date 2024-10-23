@@ -24,7 +24,11 @@ const TransactionPage = () => {
 			// Nếu đang tìm kiếm, nhảy về trang 1
 			const currentPage = search ? 1 : current
 
-			const response = await getListTransactions(currentPage, pageSize, search)
+			const response = await getListTransactions(
+				currentPage,
+				pageSize,
+				search
+			)
 			const { transactions, total } = response
 
 			// Cập nhật pagination và đặt current về 1 nếu có search
@@ -54,8 +58,6 @@ const TransactionPage = () => {
 
 	const columns = getColumnsTransactionTable()
 
-
-
 	return (
 		<>
 			<Row align='middle' justify='space-between'>
@@ -66,7 +68,8 @@ const TransactionPage = () => {
 			{/* search input */}
 			<Row style={{ marginTop: '12px' }}>
 				<Col xs={24} sm={12}>
-					<Input placeholder='Search transaction'
+					<Input
+						placeholder='Search transaction'
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
 					/>

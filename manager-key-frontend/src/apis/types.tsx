@@ -15,10 +15,6 @@ export interface IUser {
 	updatedAt: string
 }
 
-export interface IRegisterData {
-	message: string
-}
-
 export interface IProfileData {
 	message: string
 	user: IUser
@@ -63,4 +59,9 @@ export interface IStatisticOverview {
 		totalTransaction: number
 		totalDeposit: number
 	}
+}
+
+export interface IUserTransaction {
+	message: string
+	transactions: ITransaction[]
 }

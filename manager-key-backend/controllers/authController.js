@@ -5,15 +5,17 @@ const {
 	createToken,
 	validateUsername,
 	validatePassword,
+	validateEmail,
 } = require('@/utils')
 
 const authController = {
 	register: async (req, res) => {
 		try {
-			const { username, password, confirmPassword } = req.body
+			const { username, password, confirmPassword, email } = req.body
 
 			validateUsername(username)
 			validatePassword(password)
+			validateEmail(email)
 
 			if (password !== confirmPassword) {
 				return res
@@ -32,6 +34,7 @@ const authController = {
 			const newUser = new User({
 				username,
 				password: hashedPassword,
+				email,
 			})
 
 			await newUser.save()

@@ -9,6 +9,7 @@ import ErrorPage from './pages/ErrorPage'
 import LoginPage from './pages/LoginPage'
 import OverviewPage from './pages/OverviewPage'
 import ProfilePage from './pages/ProfilePage'
+import RegisterPage from './pages/RegisterPage'
 import SettingsPage from './pages/SettingsPage'
 import StatisticPage from './pages/StatisticPage'
 import TopupPage from './pages/TopupPage'
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
 		element: (
 			<PublicRoute>
 				<LoginPage />
+			</PublicRoute>
+		),
+	},
+	{
+		path: '/register',
+		element: (
+			<PublicRoute>
+				<RegisterPage />
 			</PublicRoute>
 		),
 	},

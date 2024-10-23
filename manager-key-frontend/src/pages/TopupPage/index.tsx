@@ -40,7 +40,7 @@ const TopupPage = () => {
 								src={`https://img.vietqr.io/image/cake-0356422823-print.jpg`}
 								alt='QR Code'
 								style={{
-									maxWidth: '300px',
+									maxWidth: '350px',
 									width: '100%',
 									height: 'auto',
 								}}
