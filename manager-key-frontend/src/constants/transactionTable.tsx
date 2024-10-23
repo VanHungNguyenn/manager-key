@@ -1,4 +1,4 @@
-import { Tag } from 'antd'
+import { Tag } from 'antd';
 
 export const getColumnsTransactionTable = () => [
 	{
@@ -8,6 +8,7 @@ export const getColumnsTransactionTable = () => [
 		render: (userId: { _id: string; username: string }) => {
 			return userId.username
 		},
+		fixed: true,
 	},
 	{
 		title: 'Type',
@@ -22,29 +23,39 @@ export const getColumnsTransactionTable = () => [
 		},
 	},
 	{
+		title: 'From Bank name',
+		dataIndex: 'fromBankName',
+		key: 'fromBankName',
+	},
+	{
+		title: 'From Account number',
+		dataIndex: 'fromAccountNumber',
+		key: 'fromAccountNumber',
+	},
+	{
+		title: 'Amount (VND)',
+		dataIndex: 'amount',
+		key: 'amount',
+	},
+	{
 		title: 'Bank name',
 		dataIndex: 'bankName',
 		key: 'bankName',
 	},
 	{
-		title: 'Amount',
-		dataIndex: 'amount',
-		key: 'amount',
-	},
-	{
-		title: 'Bank account number',
+		title: 'Account number',
 		dataIndex: 'bankAccountNumber',
 		key: 'bankAccountNumber',
-	},
-	{
-		title: 'Content',
-		dataIndex: 'content',
-		key: 'content',
 	},
 	{
 		title: 'Short Code',
 		dataIndex: 'shortCode',
 		key: 'shortCode',
+	},
+	{
+		title: 'Content',
+		dataIndex: 'content',
+		key: 'content',
 	},
 	{
 		title: 'Created at',

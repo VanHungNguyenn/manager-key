@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row, Table, Typography } from 'antd'
+import { Button, Col, Form, Input, Row, Table, Typography } from 'antd'
 
 import { AxiosError } from 'axios'
 import { useCallback, useEffect, useState } from 'react'
@@ -23,7 +23,7 @@ const UsersPage = () => {
 		current: 1,
 		pageSize: 10,
 		total: 0,
-		pageSizeOptions: ['10', '20'],
+		pageSizeOptions: ['5', '10', '20'],
 		showSizeChanger: true,
 	})
 
@@ -37,6 +37,7 @@ const UsersPage = () => {
 	const [isAddMode, setIsAddMode] = useState(true)
 	const [listUsers, setListUsers] = useState<IUser[]>([])
 	const [loading, setLoading] = useState(false)
+	const [search, setSearch] = useState('')
 
 	const [form] = Form.useForm()
 	const [changeBalanceForm] = Form.useForm()
@@ -44,17 +45,17 @@ const UsersPage = () => {
 	const fetchListUsers = useCallback(async () => {
 		setLoading(true)
 		try {
-			const response = await getListUsers(current, pageSize)
+			const response = await getListUsers(current, pageSize, search)
 			const { users } = response
 			setListUsers(users)
 		} finally {
 			setLoading(false)
 		}
-	}, [current, pageSize])
+	}, [current, pageSize, search])
 
 	useEffect(() => {
 		fetchListUsers()
-	}, [current, pageSize, fetchListUsers])
+	}, [current, pageSize, search, fetchListUsers])
 
 	const showModal = (mode: 'add' | 'update') => {
 		setIsAddMode(mode === 'add')
@@ -191,6 +192,15 @@ const UsersPage = () => {
 					<Button type='primary' onClick={() => showModal('add')}>
 						Add User
 					</Button>
+				</Col>
+			</Row>
+			<Row style={{ marginTop: '12px' }}>
+				<Col xs={24} sm={12}>
+					<Input
+						placeholder='Search user'
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
+					/>
 				</Col>
 			</Row>
 			<Table

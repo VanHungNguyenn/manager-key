@@ -6,6 +6,7 @@ const checkAdmin = require('@/middlewares/checkAdmin')
 // user
 router.get('/profile', checkAuth, userController.getProfileUser)
 router.put('/change-password', checkAuth, userController.changePassword)
+router.get('/transactions', checkAuth, userController.getAllTransactions)
 // admin
 router.post('/create', checkAuth, checkAdmin, userController.createUser)
 router.get('/all', checkAuth, checkAdmin, userController.getAllUsers)

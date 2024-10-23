@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage'
 import OverviewPage from './pages/OverviewPage'
 import ProfilePage from './pages/ProfilePage'
 import SettingsPage from './pages/SettingsPage'
+import StatisticPage from './pages/StatisticPage'
 import TopupPage from './pages/TopupPage'
 import TransactionPage from './pages/TransactionPage'
 import UsersPage from './pages/UsersPage'
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
 			{
 				path: '/dashboard/profile',
 				element: <ProfilePage />,
+			},
+			{
+				path: '/dashboard/statistics',
+				element: (
+					<ProtectedRoute>
+						<StatisticPage />
+					</ProtectedRoute>
+				),
 			},
 			{
 				path: '/dashboard/transactions',

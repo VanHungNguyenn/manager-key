@@ -6,6 +6,7 @@ import {
 	IProfileData,
 	IRegisterData,
 	IResponse,
+	IStatisticOverview,
 } from './types'
 
 export const login = async (
@@ -42,10 +43,11 @@ export const getProfile = async (): Promise<IProfileData> => {
 
 export const getListUsers = async (
 	page: number,
-	limit: number
+	limit: number,
+	search: string
 ): Promise<IListUsers> => {
 	const response = await axiosPrivate.get(
-		`/user/all?page=${page}&limit=${limit}`
+		`/user/all?page=${page}&limit=${limit}&search=${search}`
 	)
 
 	return response.data
@@ -118,11 +120,18 @@ export const changeBalance = async (
 
 export const getListTransactions = async (
 	page: number,
-	limit: number
+	limit: number,
+	search: string
 ): Promise<IListTransaction> => {
 	const response = await axiosPrivate.get(
-		`/transaction/all/?page=${page}&limit=${limit}`
+		`/transaction/all/?page=${page}&limit=${limit}&search=${search}`
 	)
+
+	return response.data
+}
+
+export const getStatisticOverview = async (): Promise<IStatisticOverview> => {
+	const response = await axiosPrivate.get('/statistic/overview')
 
 	return response.data
 }

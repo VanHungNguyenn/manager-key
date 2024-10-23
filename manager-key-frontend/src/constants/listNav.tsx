@@ -1,7 +1,8 @@
 import {
 	AppstoreAddOutlined,
+	BarChartOutlined,
+	DollarCircleOutlined,
 	HistoryOutlined,
-	MoneyCollectOutlined,
 	ProfileOutlined,
 	UserOutlined,
 } from '@ant-design/icons'
@@ -20,7 +21,7 @@ const createMenuItems = (isAdmin: boolean): MenuItem[] => {
 			},
 			{
 				key: '4',
-				icon: <MoneyCollectOutlined />,
+				icon: <DollarCircleOutlined />,
 				label: 'Topup',
 			},
 			{
@@ -40,6 +41,11 @@ const createMenuItems = (isAdmin: boolean): MenuItem[] => {
 			{
 				type: 'group',
 				children: [
+					{
+						key: '6',
+						icon: <BarChartOutlined />,
+						label: 'Statistics',
+					},
 					{
 						key: '2',
 						icon: <UserOutlined />,

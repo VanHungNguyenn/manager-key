@@ -14,6 +14,7 @@ export const getColumnsUserTable = (
 		render: (id: string) => {
 			return '...' + id.slice(-5)
 		},
+		width: 50,
 	},
 	{
 		title: 'Username',
@@ -36,11 +37,13 @@ export const getColumnsUserTable = (
 				<Tag color='blue'>User</Tag>
 			)
 		},
+		width: 50,
 	},
 	{
-		title: 'Balance',
+		title: 'Balance (VND)',
 		dataIndex: 'balance',
 		key: 'balance',
+		width: 140,
 	},
 	{
 		title: 'Note',
@@ -86,5 +89,6 @@ export const getColumnsUserTable = (
 				</Tooltip>
 			</Space>
 		),
+		width: 170,
 	},
 ]

@@ -86,13 +86,16 @@ const transactionController = {
 
 			if (search) {
 				// Tìm kiếm không phân biệt hoa thường
-				conditions['userId'] = {
-					$in: await User.find({
-						username: { $regex: search, $options: 'i' },
-					})
-						.select('_id') // Chỉ lấy _id của những user phù hợp
-						.then((users) => users.map((user) => user._id)), // Chuyển đổi thành mảng _id
-				}
+				const userIds = await User.find({
+					username: { $regex: search, $options: 'i' }, // Tìm kiếm theo username
+				}).select('_id') // Chỉ lấy _id của những user phù hợp
+				.then((users) => users.map((user) => user._id)) // Chuyển đổi thành mảng _id
+	
+				// Tìm theo cả userId (dựa trên username) và content
+				conditions['$or'] = [
+					{ userId: { $in: userIds } }, // Tìm theo userId
+					{ content: { $regex: search, $options: 'i' } }, // Tìm theo content
+				]
 			}
 
 			const results = await pagination(
