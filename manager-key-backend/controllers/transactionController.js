@@ -88,9 +88,10 @@ const transactionController = {
 				// Tìm kiếm không phân biệt hoa thường
 				const userIds = await User.find({
 					username: { $regex: search, $options: 'i' }, // Tìm kiếm theo username
-				}).select('_id') // Chỉ lấy _id của những user phù hợp
-				.then((users) => users.map((user) => user._id)) // Chuyển đổi thành mảng _id
-	
+				})
+					.select('_id') // Chỉ lấy _id của những user phù hợp
+					.then((users) => users.map((user) => user._id)) // Chuyển đổi thành mảng _id
+
 				// Tìm theo cả userId (dựa trên username) và content
 				conditions['$or'] = [
 					{ userId: { $in: userIds } }, // Tìm theo userId
@@ -106,16 +107,10 @@ const transactionController = {
 				populateFields
 			)
 
-			if (results.total === 0) {
-				return res
-					.status(404)
-					.json({ message: 'Transactions not found' })
-			}
-
 			return res.status(200).json({
 				message: 'Get all transactions successfully',
 				total: results.total,
-				transactions: results.results,
+				transactions: results.results || [],
 			})
 		} catch (error) {
 			return res.status(500).json({ message: error.message })
