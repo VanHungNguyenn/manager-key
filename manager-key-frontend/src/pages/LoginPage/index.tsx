@@ -114,16 +114,7 @@ const LoginPage = () => {
 								value={username}
 							/>
 						</Form.Item>
-						<Form.Item<FieldType>
-							label='Password'
-							name='password'
-							rules={[
-								{
-									required: true,
-									message: 'Please input your password!',
-								},
-							]}
-						>
+						<Form.Item<FieldType> label='Password' name='password'>
 							<Input.Password
 								onChange={(e) => setPassword(e.target.value)}
 								value={password}
